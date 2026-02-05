@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --color-primary: 211 100% 50%;
+        /* #007bff (Example Blue) - Adjust HSL values as needed */
+        --color-background: 222 47% 11%;
+        /* #1e293b (Slate 900) */
+        --color-card: 217 33% 17%;
+        /* Slate 800 */
+        --color-border: 215 25% 27%;
+        /* Slate 700 */
+
+        --color-text-heading: 0 0% 100%;
+        /* White */
+        --color-text-body: 215 20% 65%;
+        /* Slate 400 */
+        --color-text-muted: 215 16% 47%;
+        /* Slate 500 */
+
+        --font-sans: 'Inter';
+        --font-weight-heading: 700;
+        --font-transform-heading: none;
+        --font-weight-body: 400;
+        --font-transform-body: none;
+    }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: var(--font-weight-heading);
+    text-transform: var(--font-transform-heading);
+}
+
+body {
+    font-weight: var(--font-weight-body);
+    text-transform: var(--font-transform-body);
+}
