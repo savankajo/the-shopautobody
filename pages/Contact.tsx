@@ -51,15 +51,17 @@ const Contact: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Contact Form replaced with mailto link */}
           <div className="bg-brand-gray p-8 rounded-lg shadow-lg flex flex-col justify-center items-center text-center border border-brand-light-gray">
-            <h3 className="text-2xl text-text-heading mb-4">Send Us an Email</h3>
+            <h3 className="text-2xl text-text-heading mb-4 uppercase font-bold">Book an Appointment</h3>
             <p className="text-text-body mb-6 max-w-sm">
-              Click the button below to open your default email client and send a message directly to us.
+              Press the button to fill the form.
             </p>
             <a
-              href={businessInfo.email_mailto}
+              href="https://app.shopmonkey.cloud/public/quote-request/eb3be441-fedd-4a91-bb70-5b54b244be85?noExternalScripts=1"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full max-w-xs bg-brand-blue hover:brightness-110 text-white font-bold py-3 px-4 rounded-full transition duration-300 transform hover:scale-105 inline-block"
             >
-              Email: {businessInfo.email}
+              Book an appointment
             </a>
           </div>
 
