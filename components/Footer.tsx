@@ -23,10 +23,10 @@ const Footer: React.FC = () => {
             <p className="mt-2">
               <a href={businessInfo.email_mailto} className="text-text-body hover:text-brand-blue transition">{businessInfo.email}</a>
             </p>
-             <p className="mt-2">
+            <p className="mt-2">
               <a href={businessInfo.phone_tel} className="text-text-body hover:text-brand-blue transition">Tel: {businessInfo.phone_office}</a>
             </p>
-             <p className="mt-2">
+            <p className="mt-2">
               <a href={`tel:${(businessInfo.phone_cell || '').replace(/\D/g, '')}`} className="text-text-body hover:text-brand-blue transition">Cell: {businessInfo.phone_cell}</a>
             </p>
           </div>
@@ -53,11 +53,7 @@ const Footer: React.FC = () => {
         </div>
         <div className="mt-12 border-t border-brand-light-gray pt-6 text-center text-text-muted">
           <p>&copy; {new Date().getFullYear()} {businessInfo.name}. All Rights Reserved.</p>
-          <p className="text-sm mt-2">
-            This website is a demonstration and does not represent a real business. Contact form submissions are not monitored.
-            {' | '}
-            <a href="#" onClick={handleAdminClick} className="hover:underline text-text-muted">Admin</a>
-          </p>
+
         </div>
       </div>
     </footer>
