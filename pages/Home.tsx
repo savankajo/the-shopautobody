@@ -90,11 +90,11 @@ const Home: React.FC = () => {
               </div>
             </div>
           ) : (
-            <div className="relative group">
-              <h1 className="text-4xl md:text-6xl tracking-tight mb-4 text-text-heading">
+            <div className="relative group max-w-full overflow-hidden">
+              <h1 className="text-3xl md:text-5xl lg:text-7xl tracking-tight mb-4 text-text-heading break-words">
                 <MarkdownRenderer text={content.heroTitle} />
               </h1>
-              <p className="text-lg md:text-2xl text-text-body mb-8"><MarkdownRenderer text={content.heroSubtitle} /></p>
+              <p className="text-base md:text-xl lg:text-2xl text-text-body mb-8 px-4 md:px-0"><MarkdownRenderer text={content.heroSubtitle} /></p>
               {isLoggedIn && <AdminToolbar onEdit={() => setEditing('hero')} />}
             </div>
           )}

@@ -21,9 +21,9 @@ const App: React.FC = () => {
     <AuthProvider>
       <ThemeProvider>
         <BusinessInfoProvider>
-          <div className="flex flex-col min-h-screen bg-brand-dark">
+          <div className="flex flex-col min-h-screen bg-brand-dark overflow-x-hidden">
             <Header />
-            <main className="flex-grow">
+            <main className="flex-grow w-full">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/service" element={<Service />} />
