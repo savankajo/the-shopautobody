@@ -31,7 +31,7 @@ const POSTAL           = “V5C 4E4”;
 const COUNTRY          = “CA”;
 const GEO_LAT          = “49.2488”;
 const GEO_LNG          = “-122.9805”;
-const DEFAULT_IMAGE    = `${SITE_URL}/og-image.jpg`; // ← ensure this file exists
+const DEFAULT_IMAGE    = “https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png”;
 
 ```
 // ─── Default keywords (exhaustive local + intent coverage) ───────────────
@@ -121,7 +121,7 @@ const localBusinessSchema = {
     "@id": `${SITE_URL}/#localbusiness`,
     "name": SITE_NAME,
     "url": SITE_URL,
-    "logo": `${SITE_URL}/logo.png`,
+    "logo": "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png",
     "image": resolvedImage,
     "description":
         "The Shop Autobody is a full-service auto body and collision repair shop " +
