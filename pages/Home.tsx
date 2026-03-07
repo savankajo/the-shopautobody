@@ -45,11 +45,8 @@ const Home: React.FC = () => {
 
   return (
     <div>
-      <SEO
-        title="Best Auto Body Shop in Burnaby BC | Collision Repair & Painting"
-        description="Looking for an autobody shop in Burnaby, BC? The Shop Autobody offers expert collision repair, auto painting, and dent removal. Call us for a free estimate!"
-        keywords="Autobody shops Burnaby BC, Collision Repair Burnaby, Auto Body Repair Burnaby, Car Painting Burnaby, ICBC Claim Valet"
-      />
+      <SEO pageType="home" />
+
       {isLoggedIn && (
         <div className="bg-yellow-500 text-black text-center py-2 sticky top-[68px] z-40">
           <strong>Admin Mode:</strong> You are currently editing the Home page.

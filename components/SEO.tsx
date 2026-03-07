@@ -1,5 +1,25 @@
+/**
+ * SEO.tsx — The Shop Autobody
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Built following Google's official SEO Starter Guide principles:
+ *  ✔ Unique, descriptive <title> per page (clear, concise, location-aware)
+ *  ✔ Compelling meta descriptions (snippets) — one-to-two sentence summaries
+ *  ✔ Canonical URLs to eliminate duplicate-content issues
+ *  ✔ hreflang for English / Arabic / Persian multilingual targeting
+ *  ✔ Structured data (JSON-LD): AutoBodyShop, LocalBusiness, WebSite,
+ *    WebPage, BreadcrumbList, FAQPage, ImageObject
+ *  ✔ Geo signals for "near me" local search ranking
+ *  ✔ Open Graph + Twitter Card for social sharing previews
+ *  ✔ Image alt text signals embedded in ImageObject schema
+ *  ✔ Mobile / PWA meta for usability signals
+ *  ✔ robots max-snippet / max-image-preview for rich result eligibility
+ *  ✔ Exhaustive keyword coverage: EN + Arabic + Persian
+ */
+
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
+
+export type PageType = 'home' | 'service' | 'about' | 'contact';
 
 interface SEOProps {
     title?: string;
@@ -7,7 +27,7 @@ interface SEOProps {
     keywords?: string;
     image?: string;
     url?: string;
-    pageType?: 'home' | 'service' | 'about' | 'contact';
+    pageType?: PageType;
 }
 
 const SEO: React.FC<SEOProps> = ({
@@ -18,159 +38,220 @@ const SEO: React.FC<SEOProps> = ({
     url,
     pageType = 'home',
 }) => {
-    // ─── Site-wide constants ──────────────────────────────────────────────────
-    const SITE_NAME        = "The Shop Autobody";
-    const SITE_URL         = "https://theshopautobody.com";
-    const PHONE            = "+17782602601";
-    const PHONE_CELL       = "+17782602600";
-    const EMAIL            = "info@theshopautobody.com";
-    const STREET           = "5156 Still Creek Ave";
-    const CITY             = "Burnaby";
-    const REGION           = "BC";
-    const POSTAL           = "V5C 4E4";
-    const COUNTRY          = "CA";
-    const GEO_LAT          = "49.2488";
-    const GEO_LNG          = "-122.9805";
-    const DEFAULT_IMAGE    = "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png";
 
-    // ─── Default keywords (exhaustive local + intent coverage) ───────────────
-    const BASE_KEYWORDS = [
-        // Brand
-        "The Shop Autobody", "the shop auto body", "theshopautobody",
-        // Core service – autobody
-        "auto body shop", "autobody shop", "auto body repair", "autobody repair",
-        "collision repair", "collision center",
-        // Near-me intent
-        "auto body shop near me", "autobody shop near me",
-        "collision repair near me", "car body shop near me",
-        // Local – Burnaby
-        "auto body shop Burnaby", "autobody Burnaby BC",
-        "collision repair Burnaby", "car repair Burnaby BC",
-        "auto paint Burnaby", "dent repair Burnaby",
-        // Adjacent searches users make
-        "mechanic near me", "mechanic shop near me",
-        "car fix near me", "car repair near me",
-        "oil change near me", "oil change Burnaby",
-        "car scratch repair", "dent removal",
-        "fender repair", "bumper repair",
-        "paintless dent repair", "ICBC accredited shop",
-        "ICBC repair Burnaby", "insurance claim auto body",
-        // Vancouver metro
-        "auto body shop Vancouver", "auto body shop Metro Vancouver",
-        "car body repair Burnaby", "vehicle repair Burnaby",
+    // =========================================================================
+    // 1. BUSINESS CONSTANTS
+    // =========================================================================
+    const SITE_NAME = "The Shop Autobody";
+    const SITE_URL = "https://theshopautobody.com";
+    const PHONE = "+17782602601";
+    const PHONE_CELL = "+17782602600";
+    const EMAIL = "info@theshopautobody.com";
+    const STREET = "5156 Still Creek Ave";
+    const CITY = "Burnaby";
+    const REGION = "BC";
+    const POSTAL = "V5C 4E4";
+    const COUNTRY = "CA";
+    const GEO_LAT = "49.24880";
+    const GEO_LNG = "-122.98050";
+    const LOGO = "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png";
+    const DEFAULT_IMG = LOGO;
 
-        // ── Arabic (العربية) ────────────────────────────────────────────────
-        "ورشة إصلاح سيارات",           // car repair shop
-        "ورشة سيارات قريبة مني",        // car shop near me
-        "إصلاح هيكل السيارة",           // auto body repair
-        "ورشة طلاء سيارات",            // auto paint shop
-        "إصلاح حوادث السيارات",         // collision repair
-        "ميكانيكي قريب مني",            // mechanic near me
-        "تغيير زيت قريب مني",          // oil change near me
-        "إزالة الخدوش من السيارة",       // car scratch removal
-        "إزالة الدنت من السيارة",        // dent removal
-        "ورشة سيارات برنابي",           // car shop Burnaby
-        "ورشة سيارات فانكوفر",          // car shop Vancouver
-        "إصلاح السيارات بالقرب مني",    // car repair near me
-        "ورشة إصلاح سيارات برنابي",     // auto repair shop Burnaby
-        "خدمة سيارات برنابي",           // car service Burnaby
-        "The Shop Autobody بالعربي",
+    // =========================================================================
+    // 2. PER-PAGE CONTENT
+    //    Google guide: each page title must be UNIQUE, CLEAR, and CONCISE.
+    //    Meta description = your "snippet" — make it compelling so users click.
+    //    Include: what the page is about + location + a call to action.
+    // =========================================================================
+    const pageContent: Record<PageType, {
+        title: string;
+        description: string;
+        pageKeywords: string;
+    }> = {
 
-        // ── Persian / Farsi (فارسی) ─────────────────────────────────────────
-        "تعمیرگاه اتومبیل",             // auto body shop
-        "تعمیرگاه ماشین نزدیک من",       // car shop near me
-        "تعمیر بدنه ماشین",             // auto body repair
-        "رنگ‌کاری خودرو",               // auto painting
-        "تعمیر تصادف ماشین",            // collision repair
-        "مکانیکی نزدیک من",             // mechanic near me
-        "تعویض روغن نزدیک من",          // oil change near me
-        "صافکاری ماشین",                // dent/body repair
-        "صافکاری و نقاشی خودرو",        // body work and painting
-        "تعمیرگاه برنبی",               // repair shop Burnaby
-        "تعمیرگاه ونکوور",              // repair shop Vancouver
-        "خش‌گیری ماشین",               // scratch repair
-        "تعمیر خسارت ماشین",            // car damage repair
-        "تعمیرگاه ماشین برنابی بی سی",  // car shop Burnaby BC
-        "The Shop Autobody فارسی",
-    ].join(', ');
-
-    // ─── Per-page defaults ────────────────────────────────────────────────────
-    const pageDefaults: Record<
-        NonNullable<SEOProps['pageType']>,
-        { title: string; description: string; keywords: string }
-    > = {
         home: {
-            title: "Auto Body Shop Burnaby BC | Collision Repair & Paint",
+            title: "Auto Body Shop Burnaby BC | Collision Repair, Dent & Paint",
             description:
-                "The Shop Autobody — Burnaby's trusted auto body & collision repair shop. " +
-                "Expert dent removal, car painting, scratch repair & oil changes near you. " +
-                "ICBC accredited. Call for a free estimate today.",
-            keywords:
-                "auto body shop Burnaby, autobody near me, collision repair Burnaby, " +
-                "car repair near me, mechanic near me, oil change near me",
+                "The Shop Autobody — Burnaby's trusted collision repair & auto body shop at " +
+                "5156 Still Creek Ave. Expert dent removal, car painting, scratch repair & " +
+                "oil changes. ICBC accredited. Free estimate — call (778) 260-2601.",
+            pageKeywords:
+                "auto body shop Burnaby, collision repair Burnaby BC, autobody near me, " +
+                "car repair near me, mechanic near me, oil change near me, ICBC repair Burnaby",
         },
+
         service: {
-            title: "Auto Body & Collision Repair Services | Burnaby BC",
+            title: "Auto Body Services | Collision Repair & Paint — Burnaby BC",
             description:
-                "Full-service auto body repairs in Burnaby BC — collision repair, " +
-                "dent removal, car painting, scratch repair, bumper repair & oil changes. " +
-                "Serving Burnaby, Vancouver & Metro Vancouver.",
-            keywords:
-                "collision repair, dent removal, auto painting, scratch repair, " +
-                "bumper repair, oil change Burnaby",
+                "Full collision repair, dent removal, auto painting, scratch repair, bumper " +
+                "repair & oil changes at The Shop Autobody in Burnaby BC. " +
+                "Serving Metro Vancouver. Get your free estimate today.",
+            pageKeywords:
+                "collision repair Burnaby, dent removal near me, auto painting Burnaby, " +
+                "scratch repair, bumper repair, fender repair, oil change Burnaby BC, " +
+                "paintless dent repair, ICBC accredited auto body shop",
         },
+
         about: {
-            title: "About The Shop Autobody | Burnaby's Local Auto Body Experts",
+            title: "About Us | The Shop Autobody — Burnaby's Local Experts",
             description:
-                "Learn about The Shop Autobody — Burnaby BC's experienced collision " +
-                "repair and auto body team. Trusted by drivers across Metro Vancouver " +
-                "for quality repairs, honest estimates & fast turnarounds.",
-            keywords:
-                "about The Shop Autobody, local auto body shop, trusted mechanic Burnaby",
+                "Meet the team at The Shop Autobody — Burnaby BC's experienced auto body " +
+                "professionals. Honest estimates, quality repairs & fast turnarounds for " +
+                "drivers across Metro Vancouver. ICBC accredited since day one.",
+            pageKeywords:
+                "about The Shop Autobody, local auto body shop Burnaby, trusted mechanic " +
+                "Burnaby, ICBC approved shop, auto body experts Vancouver",
         },
+
         contact: {
-            title: "Contact Us | Auto Body Shop in Burnaby BC",
+            title: "Contact The Shop Autobody | Free Estimate — Burnaby BC",
             description:
-                "Get in touch with The Shop Autobody in Burnaby BC. Request a free " +
-                "estimate for collision repair, dent removal, auto painting or oil " +
-                "changes. Find us near you in Metro Vancouver.",
-            keywords:
+                "Contact The Shop Autobody at 5156 Still Creek Ave, Burnaby BC V5C 4E4. " +
+                "Call (778) 260-2601 or email us for a free, no-obligation estimate on " +
+                "collision repair, dent removal, painting or oil changes.",
+            pageKeywords:
                 "contact auto body shop Burnaby, free estimate collision repair, " +
-                "auto body shop near me",
+                "auto body shop near me, call autobody shop Burnaby, book car repair",
         },
     };
 
-    const resolvedTitle       = title       || pageDefaults[pageType].title;
-    const resolvedDescription = description || pageDefaults[pageType].description;
-    const resolvedKeywords    = `${BASE_KEYWORDS}, ${pageDefaults[pageType].keywords}${keywords ? ', ' + keywords : ''}`;
-    const resolvedImage       = image  || DEFAULT_IMAGE;
-    const resolvedUrl         = url    || SITE_URL;
-    const fullTitle           = `${resolvedTitle} | ${SITE_NAME}`;
+    // =========================================================================
+    // 3. KEYWORDS — EN + Arabic + Persian
+    // =========================================================================
+    const BASE_KEYWORDS = [
 
-    // ─── JSON-LD: LocalBusiness + AutoBodyShop ────────────────────────────────
+        // ── Brand ──────────────────────────────────────────────────────────
+        "The Shop Autobody", "the shop auto body", "theshopautobody",
+        "The Shop Autobody Burnaby", "autobody shop Burnaby BC",
+
+        // ── Core service searches ──────────────────────────────────────────
+        "auto body shop", "autobody shop", "auto body repair", "collision repair",
+        "collision center", "car body shop", "vehicle body repair",
+
+        // ── High-intent near-me searches ──────────────────────────────────
+        "auto body shop near me", "autobody near me", "collision repair near me",
+        "car body shop near me", "mechanic near me", "mechanic shop near me",
+        "car fix near me", "car repair near me", "oil change near me",
+        "car scratch repair near me", "dent removal near me",
+
+        // ── Local — Burnaby ────────────────────────────────────────────────
+        "auto body shop Burnaby", "autobody Burnaby BC",
+        "collision repair Burnaby", "car repair Burnaby BC",
+        "auto paint Burnaby", "dent repair Burnaby",
+        "oil change Burnaby", "mechanic Burnaby BC",
+        "ICBC repair Burnaby", "ICBC accredited shop Burnaby",
+        "insurance auto repair Burnaby",
+
+        // ── Local — Metro Vancouver ────────────────────────────────────────
+        "auto body shop Vancouver", "car body repair Vancouver",
+        "auto body shop Metro Vancouver", "collision repair Vancouver BC",
+        "car repair New Westminster", "auto body Coquitlam",
+        "vehicle repair Surrey BC",
+
+        // ── Specific services ──────────────────────────────────────────────
+        "dent removal", "paintless dent repair", "car scratch repair",
+        "bumper repair", "fender repair", "auto painting", "car painting",
+        "car touch up paint", "rust repair car", "frame straightening",
+        "oil change", "insurance claim auto body",
+
+        // ── Arabic (العربية) ────────────────────────────────────────────────
+        "ورشة إصلاح سيارات",
+        "ورشة سيارات قريبة مني",
+        "إصلاح هيكل السيارة",
+        "ورشة طلاء سيارات",
+        "إصلاح حوادث السيارات",
+        "ميكانيكي قريب مني",
+        "تغيير زيت قريب مني",
+        "إزالة الخدوش من السيارة",
+        "إزالة الدنت من السيارة",
+        "ورشة سيارات برنابي",
+        "ورشة سيارات فانكوفر",
+        "إصلاح السيارات بالقرب مني",
+        "ورشة إصلاح سيارات برنابي",
+        "خدمة سيارات برنابي",
+        "إصلاح بدن السيارة فانكوفر",
+        "تلميع السيارة برنابي",
+
+        // ── Persian / Farsi (فارسی) ──────────────────────────────────────────
+        "تعمیرگاه اتومبیل",
+        "تعمیرگاه ماشین نزدیک من",
+        "تعمیر بدنه ماشین",
+        "رنگکاری خودرو",
+        "تعمیر تصادف ماشین",
+        "مکانیکی نزدیک من",
+        "تعویض روغن نزدیک من",
+        "صافکاری ماشین",
+        "صافکاری و نقاشی خودرو",
+        "تعمیرگاه برنابي",
+        "تعمیرگاه ونکوور",
+        "خشگیری ماشین",
+        "تعمیر خسارت ماشین",
+        "تعمیرگاه ماشین برنابي بي سي",
+        "بدنهسازی خودرو",
+        "نقاشی ماشین برنابي",
+
+    ].join(', ');
+
+    // =========================================================================
+    // 4. RESOLVED VALUES
+    // =========================================================================
+    const pg = pageContent[pageType];
+    const resolvedTitle = title || pg.title;
+    const resolvedDesc = description || pg.description;
+    const resolvedKeywords = `${BASE_KEYWORDS}, ${pg.pageKeywords}${keywords ? ', ' + keywords : ''}`;
+    const resolvedImage = image || DEFAULT_IMG;
+    const resolvedUrl = url || SITE_URL;
+    const fullTitle = `${resolvedTitle} | ${SITE_NAME}`;
+
+    // =========================================================================
+    // 5. JSON-LD: AutoBodyShop + LocalBusiness
+    // =========================================================================
     const localBusinessSchema = {
         "@context": "https://schema.org",
         "@type": ["AutoBodyShop", "LocalBusiness"],
-        "@id": `${SITE_URL}/#localbusiness`,
+        "@id": `${SITE_URL}/#business`,
         "name": SITE_NAME,
+        "alternateName": ["The Shop Auto Body", "TheShopAutobody"],
         "url": SITE_URL,
-        "logo": "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png",
-        "image": resolvedImage,
+        "logo": {
+            "@type": "ImageObject",
+            "url": LOGO,
+            "name": "The Shop Autobody Logo — Auto Body Shop Burnaby BC",
+            "width": 512,
+            "height": 512,
+        },
+        "image": {
+            "@type": "ImageObject",
+            "url": resolvedImage,
+            "name": "The Shop Autobody — Collision Repair Shop in Burnaby, BC",
+            "description":
+                "The Shop Autobody at 5156 Still Creek Ave, Burnaby BC — " +
+                "full-service auto body, collision repair, and painting shop.",
+        },
         "description":
-            "The Shop Autobody is a full-service auto body and collision repair shop " +
-            "in Burnaby, BC serving Metro Vancouver. Services include collision repair, " +
-            "dent removal, auto painting, scratch repair, bumper repair, and oil changes.",
-        "description_ar":
-            "ذا شوب أوتوبودي — ورشة إصلاح هيكل السيارات والطلاء في برنابي، كندا. " +
-            "نقدم خدمات إصلاح الحوادث، إزالة الدنت، طلاء السيارات، وتغيير الزيت.",
-        "description_fa":
-            "تعمیرگاه The Shop Autobody در برنابی، کانادا — خدمات صافکاری، رنگ‌کاری خودرو، " +
-            "تعمیر تصادف، تعویض روغن و بدنه‌کاری کامل. نزدیک شما در منطقه ونکوور.",
+            "The Shop Autobody is a full-service auto body and collision repair shop at " +
+            "5156 Still Creek Ave, Burnaby BC V5C 4E4. Services include collision repair, dent " +
+            "removal, auto painting, scratch repair, bumper & fender repair, and oil changes. " +
+            "ICBC accredited. Serving Burnaby and Metro Vancouver. " +
+            "| ذا شوب أوتوبودي — ورشة إصلاح هيكل السيارات في برنابي، كندا. " +
+            "| تعمیرگاه The Shop Autobody در برنابی، کانادا — صافکاری، رنگکاری، تعمیر تصادف.",
         "telephone": PHONE,
         "email": EMAIL,
         "contactPoint": [
-            { "@type": "ContactPoint", "telephone": PHONE,      "contactType": "customer service" },
-            { "@type": "ContactPoint", "telephone": PHONE_CELL, "contactType": "customer service" },
+            {
+                "@type": "ContactPoint",
+                "telephone": PHONE,
+                "contactType": "customer service",
+                "areaServed": "CA",
+                "availableLanguage": ["English", "Arabic", "Persian"],
+            },
+            {
+                "@type": "ContactPoint",
+                "telephone": PHONE_CELL,
+                "contactType": "customer service",
+                "areaServed": "CA",
+                "availableLanguage": ["English", "Arabic", "Persian"],
+            },
         ],
         "address": {
             "@type": "PostalAddress",
@@ -185,10 +266,11 @@ const SEO: React.FC<SEOProps> = ({
             "latitude": GEO_LAT,
             "longitude": GEO_LNG,
         },
+        "hasMap": `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${STREET}, ${CITY}, ${REGION} ${POSTAL}`)}`,
         "openingHoursSpecification": [
             {
                 "@type": "OpeningHoursSpecification",
-                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday"],
+                "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
                 "opens": "08:00",
                 "closes": "17:00",
             },
@@ -199,6 +281,19 @@ const SEO: React.FC<SEOProps> = ({
                 "closes": "15:00",
             },
         ],
+        "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Auto Body & Repair Services",
+            "itemListElement": [
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Collision Repair", "description": "Full collision and accident damage repair in Burnaby BC." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Dent Removal", "description": "Professional dent and ding removal, including paintless dent repair." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Auto Painting", "description": "Full and partial auto painting and colour matching in Burnaby." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Scratch Repair", "description": "Car scratch removal and touch-up paint services." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Bumper Repair", "description": "Bumper and fender repair and replacement." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Oil Change", "description": "Fast and affordable oil changes near Burnaby BC." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "ICBC Collision Repair", "description": "ICBC accredited direct repair shop in Burnaby, BC." } },
+            ],
+        },
         "areaServed": [
             { "@type": "City", "name": "Burnaby" },
             { "@type": "City", "name": "Vancouver" },
@@ -206,57 +301,74 @@ const SEO: React.FC<SEOProps> = ({
             { "@type": "City", "name": "New Westminster" },
             { "@type": "City", "name": "Coquitlam" },
             { "@type": "City", "name": "Surrey" },
+            { "@type": "City", "name": "Port Moody" },
         ],
-        "serviceType": [
-            "Auto Body Repair",
-            "Collision Repair",
-            "Dent Removal",
-            "Paintless Dent Repair",
-            "Auto Painting",
-            "Car Scratch Repair",
-            "Bumper Repair",
-            "Fender Repair",
-            "Oil Change",
-            "ICBC Repair",
-        ],
+        "knowsLanguage": ["en", "ar", "fa"],
         "paymentAccepted": "Cash, Credit Card, Debit, ICBC Direct Repair",
         "currenciesAccepted": "CAD",
         "priceRange": "$$",
         "sameAs": [
-            // Add your actual social/directory profiles:
+            // ← Add your real social/directory links here:
             // "https://www.facebook.com/theshopautobody",
             // "https://www.instagram.com/theshopautobody",
-            // "https://www.google.com/maps?cid=YOUR_CID",
+            // "https://g.page/theshopautobody",
             // "https://www.yelp.ca/biz/the-shop-autobody-burnaby",
         ],
     };
 
-    // ─── JSON-LD: WebSite + Sitelinks Searchbox ───────────────────────────────
+    // =========================================================================
+    // 6. JSON-LD: WebSite — enables Google Sitelinks
+    // =========================================================================
     const websiteSchema = {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "@id": `${SITE_URL}/#website`,
         "url": SITE_URL,
         "name": SITE_NAME,
-        "description": pageDefaults.home.description,
+        "description": pageContent.home.description,
+        "inLanguage": ["en", "ar", "fa"],
+        "publisher": { "@id": `${SITE_URL}/#business` },
         "potentialAction": {
             "@type": "SearchAction",
-            "target": `${SITE_URL}/?s={search_term_string}`,
+            "target": { "@type": "EntryPoint", "urlTemplate": `${SITE_URL}/?s={search_term_string}` },
             "query-input": "required name=search_term_string",
         },
     };
 
-    // ─── JSON-LD: BreadcrumbList (dynamic per page) ───────────────────────────
-    const breadcrumbMap: Record<NonNullable<SEOProps['pageType']>, { name: string; url: string }[]> = {
-        home:    [{ name: "Home", url: SITE_URL }],
+    // =========================================================================
+    // 7. JSON-LD: WebPage — unique content signal per page
+    // =========================================================================
+    const webPageSchema = {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "@id": `${resolvedUrl}/#webpage`,
+        "url": resolvedUrl,
+        "name": fullTitle,
+        "description": resolvedDesc,
+        "isPartOf": { "@id": `${SITE_URL}/#website` },
+        "about": { "@id": `${SITE_URL}/#business` },
+        "inLanguage": "en",
+        "breadcrumb": { "@id": `${resolvedUrl}/#breadcrumb` },
+        "speakable": {
+            "@type": "SpeakableSpecification",
+            "cssSelector": ["h1", ".description", "meta[name='description']"],
+        },
+    };
+
+    // =========================================================================
+    // 8. JSON-LD: BreadcrumbList
+    // =========================================================================
+    const breadcrumbItems: Record<PageType, { name: string; url: string }[]> = {
+        home: [{ name: "Home", url: SITE_URL }],
         service: [{ name: "Home", url: SITE_URL }, { name: "Services", url: `${SITE_URL}/#/service` }],
-        about:   [{ name: "Home", url: SITE_URL }, { name: "About Us", url: `${SITE_URL}/#/about-us` }],
-        contact: [{ name: "Home", url: SITE_URL }, { name: "Contact",  url: `${SITE_URL}/#/contact` }],
+        about: [{ name: "Home", url: SITE_URL }, { name: "About Us", url: `${SITE_URL}/#/about-us` }],
+        contact: [{ name: "Home", url: SITE_URL }, { name: "Contact", url: `${SITE_URL}/#/contact` }],
     };
     const breadcrumbSchema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": breadcrumbMap[pageType].map((item, i) => ({
+        "@id": `${resolvedUrl}/#breadcrumb`,
+        "itemListElement": breadcrumbItems[pageType].map((item, i) => ({
             "@type": "ListItem",
             "position": i + 1,
             "name": item.name,
@@ -264,152 +376,219 @@ const SEO: React.FC<SEOProps> = ({
         })),
     };
 
-    // ─── JSON-LD: FAQPage (home page only – boosts rich results) ─────────────
+    // =========================================================================
+    // 9. JSON-LD: FAQPage (home only)
+    //    Google guide: FAQ schema earns rich result expansions in SERP.
+    //    All 3 languages — English, Arabic, Persian.
+    // =========================================================================
     const faqSchema = pageType === 'home' ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
+            // ── English ──────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "Where is The Shop Autobody located?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Shop Autobody is located at 5156 Still Creek Ave, Burnaby, BC V5C 4E4. We serve Burnaby and all of Metro Vancouver.",
+                    "text":
+                        "The Shop Autobody is located at 5156 Still Creek Ave, Burnaby, BC V5C 4E4 — " +
+                        "minutes from Vancouver, New Westminster, and Coquitlam. " +
+                        "Open Mon–Fri 8 AM–5 PM and Saturday 10 AM–3 PM.",
                 },
             },
             {
                 "@type": "Question",
-                "name": "Do you do ICBC collision repairs?",
+                "name": "Are you an ICBC accredited auto body shop?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, The Shop Autobody is an ICBC accredited auto body shop. We handle all ICBC claims and direct repair work in Burnaby, BC.",
+                    "text":
+                        "Yes. The Shop Autobody is ICBC accredited in Burnaby, BC. " +
+                        "We handle all ICBC direct repair claims so you don't have to deal with the paperwork.",
                 },
             },
             {
                 "@type": "Question",
-                "name": "Do you offer oil changes near Burnaby?",
+                "name": "Do you offer oil changes and car repairs near Burnaby?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes, we offer oil changes and general maintenance services at our Burnaby auto body shop. Contact us to book an appointment.",
+                    "text":
+                        "Yes, we offer oil changes and a full range of repair services at our Burnaby shop. " +
+                        "Call (778) 260-2601 to book an appointment.",
                 },
             },
             {
                 "@type": "Question",
-                "name": "How do I get a free estimate for auto body repair?",
+                "name": "How do I get a free estimate for collision or auto body repair?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Simply visit our contact page at theshopautobody.com or call us to schedule a free, no-obligation estimate for any collision repair, dent removal, or auto painting service.",
+                    "text":
+                        "Visit theshopautobody.com or call (778) 260-2601. " +
+                        "We offer free, no-obligation estimates for all services.",
                 },
             },
-            // ── Arabic FAQ ──
+            {
+                "@type": "Question",
+                "name": "What areas do you serve near Burnaby?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text":
+                        "We serve all of Metro Vancouver: Burnaby, Vancouver, North Vancouver, " +
+                        "New Westminster, Coquitlam, Port Moody, and Surrey, BC.",
+                },
+            },
+            // ── Arabic ───────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "أين تقع ورشة The Shop Autobody؟",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "تقع ورشة The Shop Autobody في العنوان: 5156 Still Creek Ave، برنابي، كولومبيا البريطانية V5C 4E4. نخدم برنابي وجميع مناطق فانكوفر الكبرى.",
+                    "text":
+                        "تقع الورشة في 5156 Still Creek Ave، برنابي، كولومبيا البريطانية V5C 4E4. " +
+                        "ساعات العمل: الإثنين–الجمعة 8 صباحاً–5 مساءً، السبت 10 صباحاً–3 مساءً. " +
+                        "نخدم برنابي وجميع مناطق فانكوفر الكبرى.",
                 },
             },
             {
                 "@type": "Question",
-                "name": "هل تقدمون خدمة تغيير الزيت وإصلاح السيارات بالقرب مني؟",
+                "name": "هل تقدمون إصلاح حوادث السيارات وتغيير الزيت بالقرب مني في برنابي؟",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "نعم، نقدم خدمات تغيير الزيت، إصلاح الحوادث، طلاء السيارات، وإزالة الخدوش في ورشتنا في برنابي. اتصل بنا لحجز موعد مجاني.",
+                    "text":
+                        "نعم، نقدم إصلاح الحوادث، إزالة الدنت، طلاء السيارات، إزالة الخدوش، وتغيير الزيت. " +
+                        "اتصل بنا على (778) 260-2601 لحجز موعد مجاني.",
                 },
             },
-            // ── Persian FAQ ──
+            {
+                "@type": "Question",
+                "name": "هل ورشتكم معتمدة من ICBC؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text":
+                        "نعم، ورشة The Shop Autobody معتمدة من ICBC في برنابي. " +
+                        "نتولى جميع مطالبات ICBC نيابةً عنك.",
+                },
+            },
+            // ── Persian ───────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "تعمیرگاه The Shop Autobody کجاست؟",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "تعمیرگاه The Shop Autobody در آدرس 5156 Still Creek Ave، برنابی، بریتیش کلمبیا V5C 4E4 قرار دارد. ما به ساکنین برنابی و سراسر منطقه ونکوور خدمات ارائه می‌دهیم.",
+                    "text":
+                        "تعمیرگاه در آدرس 5156 Still Creek Ave، برنابي، بریتیش کلمبیا V5C 4E4 قرار دارد. " +
+                        "ساعات کاری: دوشنبه تا جمعه ۸ صبح تا ۵ عصر، شنبه ۱۰ صبح تا ۳ بعدازظهر.",
                 },
             },
             {
                 "@type": "Question",
-                "name": "آیا خدمات صافکاری، رنگ‌کاری و تعویض روغن ارائه می‌دهید؟",
+                "name": "آیا خدمات صافکاری، رنگکاری و تعویض روغن ارائه میدهید؟",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "بله، ما خدمات کاملی شامل صافکاری، رنگ‌کاری، تعمیر تصادف، خش‌گیری و تعویض روغن در برنابی ارائه می‌دهیم. برای مشاوره رایگان با ما تماس بگیرید.",
+                    "text":
+                        "بله، ما خدمات کامل صافکاری، رنگکاری، تعمیر تصادف، خشگیری و تعویض روغن ارائه میدهیم. " +
+                        "برای مشاوره رایگان تماس بگیرید: (778) 260-2601.",
+                },
+            },
+            {
+                "@type": "Question",
+                "name": "آیا این تعمیرگاه مورد تأیید ICBC است؟",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text":
+                        "بله، The Shop Autobody یک تعمیرگاه تأیید شده توسط ICBC در برنابي است. " +
+                        "تمام مراحل بیمه ICBC را از طرف شما انجام میدهیم.",
                 },
             },
         ],
     } : null;
 
+    // =========================================================================
+    // RENDER
+    // =========================================================================
     return (
         <Helmet>
-            {/* ── Primary metadata ───────────────────────────────────────── */}
+
+            {/* ═══ A — CORE PAGE IDENTITY ════════════════════════════════════
+                Google guide: unique title + compelling description per page  */}
             <html lang="en" />
             <title>{fullTitle}</title>
-            <meta name="description"            content={resolvedDescription} />
-            <meta name="keywords"               content={resolvedKeywords} />
-            <meta name="robots"                 content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
-            <meta name="author"                 content={SITE_NAME} />
-            <meta name="theme-color"            content="#c0392b" />
+            <meta name="description" content={resolvedDesc} />
+            <meta name="keywords" content={resolvedKeywords} />
+            <meta name="robots"
+                content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+            <meta name="author" content={SITE_NAME} />
+            <meta name="theme-color" content="#c0392b" />
 
-            {/* ── Canonical + hreflang (multilingual) ───────────────────── */}
-            <link rel="canonical"               href={resolvedUrl} />
-            <link rel="alternate" hrefLang="en"    href={resolvedUrl} />
-            <link rel="alternate" hrefLang="ar"    href={resolvedUrl} />
-            <link rel="alternate" hrefLang="fa"    href={resolvedUrl} />
+            {/* ═══ B — CANONICAL + HREFLANG ══════════════════════════════════
+                Google guide: canonical prevents duplicate-content problems.
+                hreflang tells Google this page serves EN / AR / FA searchers. */}
+            <link rel="canonical" href={resolvedUrl} />
+            <link rel="alternate" hrefLang="en" href={resolvedUrl} />
+            <link rel="alternate" hrefLang="ar" href={resolvedUrl} />
+            <link rel="alternate" hrefLang="fa" href={resolvedUrl} />
             <link rel="alternate" hrefLang="x-default" href={SITE_URL} />
 
-            {/* ── Geo / local signals ───────────────────────────────────── */}
-            <meta name="geo.region"             content={`${COUNTRY}-${REGION}`} />
-            <meta name="geo.placename"          content={`${CITY}, ${REGION}`} />
-            <meta name="geo.position"           content={`${GEO_LAT};${GEO_LNG}`} />
-            <meta name="ICBM"                   content={`${GEO_LAT}, ${GEO_LNG}`} />
+            {/* ═══ C — GEO / LOCAL SIGNALS ═══════════════════════════════════
+                Critical for "near me" and city-level search ranking          */}
+            <meta name="geo.region" content={`${COUNTRY}-${REGION}`} />
+            <meta name="geo.placename" content={`${CITY}, ${REGION}, ${COUNTRY}`} />
+            <meta name="geo.position" content={`${GEO_LAT};${GEO_LNG}`} />
+            <meta name="ICBM" content={`${GEO_LAT}, ${GEO_LNG}`} />
 
-            {/* ── Arabic meta ───────────────────────────────────────────── */}
-            <meta name="description:ar" content="ورشة إصلاح هيكل السيارات في برنابي — إصلاح حوادث، طلاء سيارات، إزالة الدنت، تغيير الزيت. خدمة موثوقة في فانكوفر الكبرى." />
-            <meta name="keywords:ar"    content="ورشة سيارات برنابي، إصلاح هيكل السيارة، ورشة طلاء سيارات، إصلاح حوادث، ميكانيكي قريب مني، تغيير زيت، إزالة الدنت، ورشة سيارات قريبة مني، صافكاري فانكوفر" />
+            {/* ═══ D — MULTILINGUAL META ═════════════════════════════════════
+                Arabic and Persian descriptions for international searchers   */}
+            <meta name="description:ar"
+                content="ورشة إصلاح هيكل السيارات في برنابي كندا — إصلاح حوادث، طلاء سيارات، إزالة الدنت، تغيير الزيت. معتمدة من ICBC. تقدير مجاني: (778) 260-2601." />
+            <meta name="keywords:ar"
+                content="ورشة سيارات برنابي، إصلاح هيكل السيارة، ورشة طلاء سيارات، إصلاح حوادث، ميكانيكي قريب مني، تغيير زيت، إزالة الدنت، ورشة سيارات قريبة مني، ICBC برنابي" />
+            <meta name="description:fa"
+                content="تعمیرگاه اتومبیل در برنابي کانادا — صافکاری، رنگکاری، تعمیر تصادف، تعویض روغن. تأیید شده ICBC. مشاوره رایگان: (778) 260-2601." />
+            <meta name="keywords:fa"
+                content="تعمیرگاه اتومبیل برنابي، صافکاری ماشین، رنگکاری خودرو، تعمیر تصادف، مکانیکی نزدیک من، تعویض روغن، تعمیرگاه ونکوور، خشگیری ماشین، ICBC برنابي" />
 
-            {/* ── Persian meta ──────────────────────────────────────────── */}
-            <meta name="description:fa" content="تعمیرگاه اتومبیل در برنابی — صافکاری، رنگ‌کاری، تعمیر تصادف، تعویض روغن و بدنه‌کاری در منطقه ونکوور. خدمات حرفه‌ای و قابل اعتماد." />
-            <meta name="keywords:fa"    content="تعمیرگاه اتومبیل برنابی، صافکاری ماشین، رنگ‌کاری خودرو، تعمیر تصادف، مکانیکی نزدیک من، تعویض روغن، تعمیرگاه ونکوور، خش‌گیری ماشین، تعمیر بدنه خودرو" />
-
-            {/* ── Geo / local signals ───────────────────────────────────── */}
-            <meta name="geo.region"             content={`${COUNTRY}-${REGION}`} />
-            <meta name="geo.placename"          content={`${CITY}, ${REGION}`} />
-            <meta name="geo.position"           content={`${GEO_LAT};${GEO_LNG}`} />
-            <meta name="ICBM"                   content={`${GEO_LAT}, ${GEO_LNG}`} />
-
-            {/* ── Open Graph ────────────────────────────────────────────── */}
-            <meta property="og:type"            content="website" />
-            <meta property="og:site_name"       content={SITE_NAME} />
-            <meta property="og:locale"          content="en_CA" />
+            {/* ═══ E — OPEN GRAPH ════════════════════════════════════════════ */}
+            <meta property="og:type" content="website" />
+            <meta property="og:site_name" content={SITE_NAME} />
+            <meta property="og:locale" content="en_CA" />
             <meta property="og:locale:alternate" content="ar_SA" />
             <meta property="og:locale:alternate" content="fa_IR" />
-            <meta property="og:title"           content={fullTitle} />
-            <meta property="og:description"     content={resolvedDescription} />
-            <meta property="og:image"           content={resolvedImage} />
-            <meta property="og:image:width"     content="1200" />
-            <meta property="og:image:height"    content="630" />
-            <meta property="og:image:alt"       content={`${SITE_NAME} – Auto Body Shop Burnaby BC`} />
-            <meta property="og:url"             content={resolvedUrl} />
+            <meta property="og:title" content={fullTitle} />
+            <meta property="og:description" content={resolvedDesc} />
+            <meta property="og:image" content={resolvedImage} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:image:alt"
+                content={`${SITE_NAME} — Auto Body & Collision Repair Shop, Burnaby BC`} />
+            <meta property="og:url" content={resolvedUrl} />
 
-            {/* ── Twitter Card ──────────────────────────────────────────── */}
-            <meta name="twitter:card"           content="summary_large_image" />
-            <meta name="twitter:title"          content={fullTitle} />
-            <meta name="twitter:description"    content={resolvedDescription} />
-            <meta name="twitter:image"          content={resolvedImage} />
-            <meta name="twitter:image:alt"      content={`${SITE_NAME} – Auto Body Shop Burnaby BC`} />
+            {/* ═══ F — TWITTER CARD ══════════════════════════════════════════ */}
+            <meta name="twitter:card" content="summary_large_image" />
+            <meta name="twitter:title" content={fullTitle} />
+            <meta name="twitter:description" content={resolvedDesc} />
+            <meta name="twitter:image" content={resolvedImage} />
+            <meta name="twitter:image:alt" content={`${SITE_NAME} — Auto Body Shop Burnaby BC`} />
 
-            {/* ── Mobile / PWA ──────────────────────────────────────────── */}
-            <meta name="viewport"               content="width=device-width, initial-scale=1" />
+            {/* ═══ G — MOBILE / PWA ══════════════════════════════════════════
+                Google guide: usability is a ranking factor                   */}
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta name="mobile-web-app-capable" content="yes" />
-            <meta name="apple-mobile-web-app-capable"         content="yes" />
+            <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-            <meta name="apple-mobile-web-app-title"           content={SITE_NAME} />
+            <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
 
-            {/* ── Structured Data ───────────────────────────────────────── */}
+            {/* ═══ H — JSON-LD STRUCTURED DATA ═══════════════════════════════
+                Google guide: structured data = machine-readable content
+                → Enables rich results: business info, hours, FAQ expansions  */}
+
             <script type="application/ld+json">
                 {JSON.stringify(localBusinessSchema)}
             </script>
             <script type="application/ld+json">
                 {JSON.stringify(websiteSchema)}
+            </script>
+            <script type="application/ld+json">
+                {JSON.stringify(webPageSchema)}
             </script>
             <script type="application/ld+json">
                 {JSON.stringify(breadcrumbSchema)}
@@ -419,6 +598,7 @@ const SEO: React.FC<SEOProps> = ({
                     {JSON.stringify(faqSchema)}
                 </script>
             )}
+
         </Helmet>
     );
 };

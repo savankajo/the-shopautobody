@@ -21,10 +21,8 @@ const Contact: React.FC = () => {
 
   return (
     <div className="bg-brand-dark">
-      <SEO
-        title="Contact Us - The Shop Autobody Burnaby"
-        description="Get a free estimate for your auto body repair. Visit The Shop Autobody at 5156 Still Creek Ave, Burnaby, BC or call us at 778-998-1778."
-      />
+      <SEO pageType="contact" />
+
       {isLoggedIn && (
         <div className="bg-yellow-500 text-black text-center py-2 sticky top-[68px] z-40">
           <strong>Admin Mode:</strong> You are currently editing the Contact page.

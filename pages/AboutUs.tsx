@@ -29,10 +29,8 @@ const AboutUs: React.FC = () => {
 
     return (
         <div className="bg-brand-dark">
-            <SEO
-                title="About Us - Trusted Autobody Shop in Burnaby BC"
-                description="Family-owned and operated for over 50 years. The Shop Autobody is Burnaby's trusted choice for quality collision repair and exceptional service."
-            />
+            <SEO pageType="about" />
+
             {isLoggedIn && (
                 <div className="bg-yellow-500 text-black text-center py-2 sticky top-[68px] z-40">
                     <strong>Admin Mode:</strong> You are currently editing the About Us page.

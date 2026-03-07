@@ -53,10 +53,8 @@ const Service: React.FC = () => {
 
   return (
     <div className="bg-brand-dark">
-      <SEO
-        title="Our Services - Collision Repair, Painting & More | Burnaby Autobody"
-        description="Full-service autobody repair in Burnaby, BC. Services include collision repair, dent removal, auto painting, scratch repair, and ICBC claims assistance."
-      />
+      <SEO pageType="service" />
+
       {isLoggedIn && (
         <div className="bg-yellow-500 text-black text-center py-2 sticky top-[68px] z-40">
           <strong>Admin Mode:</strong> You are currently editing the Service page.
