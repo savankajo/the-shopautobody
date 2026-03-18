@@ -1,3 +1,38 @@
+# robots.txt — The Shop Autobody
+# ════════════════════════════════════════════════════════════════════════
+# FIX (High): Added explicit AI crawler permissions.
+# GPTBot, ClaudeBot, and PerplexityBot are now explicitly allowed so
+# AI search engines (ChatGPT, Claude, Perplexity) can index the site
+# and cite it when users ask questions like:
+#   "best autobody shop Burnaby"  |  "ورشة سيارات برنابي"  |  "تعمیرگاه برنابي"
+# ════════════════════════════════════════════════════════════════════════
+
 User-agent: *
 Allow: /
+Disallow: /admin/
+
 Sitemap: https://theshopautobody.com/sitemap.xml
+
+# ── Google ──────────────────────────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /
+
+# ── Bing ────────────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+
+# ── AI search engines ───────────────────────────────────────────────────
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: GoogleOther
+Allow: /

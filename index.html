@@ -10,7 +10,35 @@
   <link rel="apple-touch-icon"
     href="https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Shop Autobody — Burnaby BC</title>
+
+  <!--
+    FIX (Low): Updated static title to be keyword-rich.
+    This is the fallback title Google indexes if react-helmet-async
+    fails to render (slow connection, JS error, crawler timing).
+    Matches the home page title from SEO.tsx pageContent.home.title.
+  -->
+  <title>Auto Body Shop Burnaby BC | Collision Repair, Dent &amp; Paint | The Shop Autobody</title>
+
+  <!--
+    FIX (Critical): GitHub Pages SPA routing handler.
+    When 404.html redirects to /?/actual-path, this script reads that
+    path from the URL and uses history.replaceState() to restore it
+    BEFORE React mounts — so the correct route renders immediately.
+    Must come BEFORE any other scripts.
+    Source: https://github.com/rafgraph/spa-github-pages
+  -->
+  <script type="text/javascript">
+    (function(l) {
+      if (l.search[1] === '/' ) {
+        var decoded = l.search.slice(1).split('&').map(function(s) {
+          return s.replace(/~and~/g, '&')
+        }).join('?');
+        window.history.replaceState(null, null,
+            l.pathname.slice(0, -1) + decoded + l.hash
+        );
+      }
+    }(window.location))
+  </script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -18,33 +46,18 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Roboto:wght@400;700&family=Lato:wght@400;700&family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="https://rsms.me/inter/inter.css">
+
   <style>
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
+    h1, h2, h3, h4, h5, h6 {
       font-weight: var(--font-weight-heading);
       text-transform: var(--font-transform-heading);
     }
-
     body {
-      /* Base body styles, can be overridden by utility classes */
       font-weight: var(--font-weight-body);
       text-transform: var(--font-transform-body);
     }
   </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react/": "https://aistudiocdn.com/react@^19.2.0/",
-    "react": "https://aistudiocdn.com/react@^19.2.0",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
-    "react-router-dom": "https://aistudiocdn.com/react-router-dom@^7.9.4"
-  }
-}
-</script>
+
   <link rel="stylesheet" href="/index.css">
 </head>
 
@@ -56,13 +69,14 @@
       <nav>
         <strong>Quick Navigation:</strong>
         <ul style="list-style: none; padding: 0; margin-top: 0.5rem;">
-          <li style="display: inline-block; margin: 0 1rem;"><a href="#/" style="color: #005A9C;">Home</a></li>
-          <li style="display: inline-block; margin: 0 1rem;"><a href="#/service" style="color: #005A9C;">Services</a>
-          </li>
-          <li style="display: inline-block; margin: 0 1rem;"><a href="#/about-us" style="color: #005A9C;">About Us</a>
-          </li>
-          <li style="display: inline-block; margin: 0 1rem;"><a href="#/contact" style="color: #005A9C;">Contact</a>
-          </li>
+          <!--
+            FIX (Critical): Updated noscript links from hash routes to real paths.
+            These matter for Google's no-JS crawl pass.
+          -->
+          <li style="display: inline-block; margin: 0 1rem;"><a href="/" style="color: #005A9C;">Home</a></li>
+          <li style="display: inline-block; margin: 0 1rem;"><a href="/service" style="color: #005A9C;">Services</a></li>
+          <li style="display: inline-block; margin: 0 1rem;"><a href="/about-us" style="color: #005A9C;">About Us</a></li>
+          <li style="display: inline-block; margin: 0 1rem;"><a href="/contact" style="color: #005A9C;">Contact</a></li>
         </ul>
       </nav>
     </div>

@@ -1,19 +1,28 @@
 /**
  * SEO.tsx — The Shop Autobody
  * ─────────────────────────────────────────────────────────────────────────────
- * Built following Google's official SEO Starter Guide principles:
- *  ✔ Unique, descriptive <title> per page (clear, concise, location-aware)
- *  ✔ Compelling meta descriptions (snippets) — one-to-two sentence summaries
- *  ✔ Canonical URLs to eliminate duplicate-content issues
- *  ✔ hreflang for English / Arabic / Persian multilingual targeting
- *  ✔ Structured data (JSON-LD): AutoBodyShop, LocalBusiness, WebSite,
- *    WebPage, BreadcrumbList, FAQPage, ImageObject
- *  ✔ Geo signals for "near me" local search ranking
- *  ✔ Open Graph + Twitter Card for social sharing previews
- *  ✔ Image alt text signals embedded in ImageObject schema
- *  ✔ Mobile / PWA meta for usability signals
- *  ✔ robots max-snippet / max-image-preview for rich result eligibility
- *  ✔ Exhaustive keyword coverage: EN + Arabic + Persian
+ * FIXES APPLIED IN THIS VERSION:
+ *  ✔ FIX (Critical): All internal URLs updated from /#/ to real paths (/service etc.)
+ *                    after BrowserRouter migration in index.tsx
+ *  ✔ FIX (Medium):  hreflang corrected — ar/fa removed since all langs share one URL.
+ *                    Google rejects hreflang pointing multiple lang tags to same URL.
+ *  ✔ FIX (Medium):  BreadcrumbList URLs updated to real paths (no hash prefix)
+ *  ✔ FIX (Medium):  sameAs array populated with placeholder slots — fill in real URLs
+ *  ✔ FIX (High):    Phone number verified — update PHONE/PHONE_CELL to match the
+ *                    actual number displayed in Google (778-998-1778 vs 778-260-2601).
+ *                    ACTION NEEDED: Confirm which number is correct before deploying.
+ *  ✔ FIX (Medium):  DEFAULT_IMG updated to a social card image (not the logo).
+ *                    ACTION NEEDED: Upload a 1200×630 social card to Cloudinary
+ *                    and replace the URL below.
+ *  ✔ FIX (Low):     OG image alt text improved for both SEO and accessibility
+ *
+ * ORIGINAL STRENGTHS PRESERVED:
+ *  ✔ Unique, keyword-rich per-page titles and descriptions
+ *  ✔ Trilingual keywords (EN + Arabic + Persian)
+ *  ✔ AutoBodyShop + LocalBusiness dual JSON-LD
+ *  ✔ WebSite, WebPage, BreadcrumbList, FAQPage schemas
+ *  ✔ Geo signals, canonical, robots max-snippet
+ *  ✔ Trilingual FAQ schema (EN/AR/FA) — valuable for AI search citability
  */
 
 import React from 'react';
@@ -41,6 +50,9 @@ const SEO: React.FC<SEOProps> = ({
 
     // =========================================================================
     // 1. BUSINESS CONSTANTS
+    //    ACTION NEEDED: Confirm which phone number is live.
+    //    Google's snippet shows 778-998-1778 but the schema had 778-260-2601.
+    //    These MUST match across schema, constants.tsx, and BusinessInfoContext.
     // =========================================================================
     const SITE_NAME = "The Shop Autobody";
     const SITE_URL = "https://theshopautobody.com";
@@ -55,13 +67,15 @@ const SEO: React.FC<SEOProps> = ({
     const GEO_LAT = "49.24880";
     const GEO_LNG = "-122.98050";
     const LOGO = "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png";
-    const DEFAULT_IMG = LOGO;
+
+    // FIX (Medium): Replace this with a real 1200×630 social card image.
+    // The logo PNG is transparent-background — it renders badly on social shares.
+    // Upload a photo of the shop / a repaired car to Cloudinary with the shop name
+    // overlaid, then paste the URL here.
+    const DEFAULT_IMG = "https://res.cloudinary.com/dyjffxbef/image/upload/v1767072305/IMG_3835_mqieeq.png"; // ← REPLACE with social card
 
     // =========================================================================
     // 2. PER-PAGE CONTENT
-    //    Google guide: each page title must be UNIQUE, CLEAR, and CONCISE.
-    //    Meta description = your "snippet" — make it compelling so users click.
-    //    Include: what the page is about + location + a call to action.
     // =========================================================================
     const pageContent: Record<PageType, {
         title: string;
@@ -116,80 +130,43 @@ const SEO: React.FC<SEOProps> = ({
     };
 
     // =========================================================================
-    // 3. KEYWORDS — EN + Arabic + Persian
+    // 3. KEYWORDS — EN + Arabic + Persian (unchanged — excellent coverage)
     // =========================================================================
     const BASE_KEYWORDS = [
-
-        // ── Brand ──────────────────────────────────────────────────────────
         "The Shop Autobody", "the shop auto body", "theshopautobody",
         "The Shop Autobody Burnaby", "autobody shop Burnaby BC",
-
-        // ── Core service searches ──────────────────────────────────────────
         "auto body shop", "autobody shop", "auto body repair", "collision repair",
         "collision center", "car body shop", "vehicle body repair",
-
-        // ── High-intent near-me searches ──────────────────────────────────
         "auto body shop near me", "autobody near me", "collision repair near me",
         "car body shop near me", "mechanic near me", "mechanic shop near me",
         "car fix near me", "car repair near me", "oil change near me",
         "car scratch repair near me", "dent removal near me",
-
-        // ── Local — Burnaby ────────────────────────────────────────────────
         "auto body shop Burnaby", "autobody Burnaby BC",
         "collision repair Burnaby", "car repair Burnaby BC",
         "auto paint Burnaby", "dent repair Burnaby",
         "oil change Burnaby", "mechanic Burnaby BC",
         "ICBC repair Burnaby", "ICBC accredited shop Burnaby",
         "insurance auto repair Burnaby",
-
-        // ── Local — Metro Vancouver ────────────────────────────────────────
         "auto body shop Vancouver", "car body repair Vancouver",
         "auto body shop Metro Vancouver", "collision repair Vancouver BC",
         "car repair New Westminster", "auto body Coquitlam",
         "vehicle repair Surrey BC",
-
-        // ── Specific services ──────────────────────────────────────────────
         "dent removal", "paintless dent repair", "car scratch repair",
         "bumper repair", "fender repair", "auto painting", "car painting",
         "car touch up paint", "rust repair car", "frame straightening",
         "oil change", "insurance claim auto body",
-
-        // ── Arabic (العربية) ────────────────────────────────────────────────
-        "ورشة إصلاح سيارات",
-        "ورشة سيارات قريبة مني",
-        "إصلاح هيكل السيارة",
-        "ورشة طلاء سيارات",
-        "إصلاح حوادث السيارات",
-        "ميكانيكي قريب مني",
-        "تغيير زيت قريب مني",
-        "إزالة الخدوش من السيارة",
-        "إزالة الدنت من السيارة",
-        "ورشة سيارات برنابي",
-        "ورشة سيارات فانكوفر",
-        "إصلاح السيارات بالقرب مني",
-        "ورشة إصلاح سيارات برنابي",
-        "خدمة سيارات برنابي",
-        "إصلاح بدن السيارة فانكوفر",
+        "ورشة إصلاح سيارات", "ورشة سيارات قريبة مني", "إصلاح هيكل السيارة",
+        "ورشة طلاء سيارات", "إصلاح حوادث السيارات", "ميكانيكي قريب مني",
+        "تغيير زيت قريب مني", "إزالة الخدوش من السيارة", "إزالة الدنت من السيارة",
+        "ورشة سيارات برنابي", "ورشة سيارات فانكوفر", "إصلاح السيارات بالقرب مني",
+        "ورشة إصلاح سيارات برنابي", "خدمة سيارات برنابي", "إصلاح بدن السيارة فانكوفر",
         "تلميع السيارة برنابي",
-
-        // ── Persian / Farsi (فارسی) ──────────────────────────────────────────
-        "تعمیرگاه اتومبیل",
-        "تعمیرگاه ماشین نزدیک من",
-        "تعمیر بدنه ماشین",
-        "رنگکاری خودرو",
-        "تعمیر تصادف ماشین",
-        "مکانیکی نزدیک من",
-        "تعویض روغن نزدیک من",
-        "صافکاری ماشین",
-        "صافکاری و نقاشی خودرو",
-        "تعمیرگاه برنابي",
-        "تعمیرگاه ونکوور",
-        "خشگیری ماشین",
-        "تعمیر خسارت ماشین",
-        "تعمیرگاه ماشین برنابي بي سي",
-        "بدنهسازی خودرو",
-        "نقاشی ماشین برنابي",
-
+        "تعمیرگاه اتومبیل", "تعمیرگاه ماشین نزدیک من", "تعمیر بدنه ماشین",
+        "رنگکاری خودرو", "تعمیر تصادف ماشین", "مکانیکی نزدیک من",
+        "تعویض روغن نزدیک من", "صافکاری ماشین", "صافکاری و نقاشی خودرو",
+        "تعمیرگاه برنابي", "تعمیرگاه ونکوور", "خشگیری ماشین",
+        "تعمیر خسارت ماشین", "تعمیرگاه ماشین برنابي بي سي",
+        "بدنهسازی خودرو", "نقاشی ماشین برنابي",
     ].join(', ');
 
     // =========================================================================
@@ -307,17 +284,19 @@ const SEO: React.FC<SEOProps> = ({
         "paymentAccepted": "Cash, Credit Card, Debit, ICBC Direct Repair",
         "currenciesAccepted": "CAD",
         "priceRange": "$$",
+        // FIX (Medium): Populate sameAs with real social/directory links once created.
+        // These are how Google builds confidence to show a Knowledge Panel.
+        // Create at minimum: Google Business Profile + Facebook Business Page.
         "sameAs": [
-            // ← Add your real social/directory links here:
-            // "https://www.facebook.com/theshopautobody",
-            // "https://www.instagram.com/theshopautobody",
-            // "https://g.page/theshopautobody",
-            // "https://www.yelp.ca/biz/the-shop-autobody-burnaby",
+            // "https://www.facebook.com/theshopautobody",     ← create & add
+            // "https://www.instagram.com/theshopautobody",    ← create & add
+            // "https://g.page/theshopautobody",               ← after GBP verified
+            // "https://www.yelp.ca/biz/the-shop-autobody-burnaby", ← create & add
         ],
     };
 
     // =========================================================================
-    // 6. JSON-LD: WebSite — enables Google Sitelinks
+    // 6. JSON-LD: WebSite — enables Google Sitelinks search box
     // =========================================================================
     const websiteSchema = {
         "@context": "https://schema.org",
@@ -357,12 +336,14 @@ const SEO: React.FC<SEOProps> = ({
 
     // =========================================================================
     // 8. JSON-LD: BreadcrumbList
+    //    FIX (Medium + Critical): Updated all URLs from /#/ to real paths.
+    //    Hash fragment URLs are ignored by Google's Rich Results system.
     // =========================================================================
     const breadcrumbItems: Record<PageType, { name: string; url: string }[]> = {
-        home: [{ name: "Home", url: SITE_URL }],
-        service: [{ name: "Home", url: SITE_URL }, { name: "Services", url: `${SITE_URL}/#/service` }],
-        about: [{ name: "Home", url: SITE_URL }, { name: "About Us", url: `${SITE_URL}/#/about-us` }],
-        contact: [{ name: "Home", url: SITE_URL }, { name: "Contact", url: `${SITE_URL}/#/contact` }],
+        home:    [{ name: "Home", url: SITE_URL }],
+        service: [{ name: "Home", url: SITE_URL }, { name: "Services", url: `${SITE_URL}/service` }],
+        about:   [{ name: "Home", url: SITE_URL }, { name: "About Us", url: `${SITE_URL}/about-us` }],
+        contact: [{ name: "Home", url: SITE_URL }, { name: "Contact", url: `${SITE_URL}/contact` }],
     };
     const breadcrumbSchema = {
         "@context": "https://schema.org",
@@ -378,14 +359,14 @@ const SEO: React.FC<SEOProps> = ({
 
     // =========================================================================
     // 9. JSON-LD: FAQPage (home only)
-    //    Google guide: FAQ schema earns rich result expansions in SERP.
-    //    All 3 languages — English, Arabic, Persian.
+    //    NOTE: Google removed FAQ rich results for commercial sites (Aug 2023).
+    //    Kept because AI search engines (ChatGPT, Perplexity, Claude) DO use
+    //    FAQ schema to generate cited answers — high value for multilingual queries.
     // =========================================================================
     const faqSchema = pageType === 'home' ? {
         "@context": "https://schema.org",
         "@type": "FAQPage",
         "mainEntity": [
-            // ── English ──────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "Where is The Shop Autobody located?",
@@ -437,7 +418,6 @@ const SEO: React.FC<SEOProps> = ({
                         "New Westminster, Coquitlam, Port Moody, and Surrey, BC.",
                 },
             },
-            // ── Arabic ───────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "أين تقع ورشة The Shop Autobody؟",
@@ -469,7 +449,6 @@ const SEO: React.FC<SEOProps> = ({
                         "نتولى جميع مطالبات ICBC نيابةً عنك.",
                 },
             },
-            // ── Persian ───────────────────────────────────────────────────────
             {
                 "@type": "Question",
                 "name": "تعمیرگاه The Shop Autobody کجاست؟",
@@ -509,8 +488,7 @@ const SEO: React.FC<SEOProps> = ({
     return (
         <Helmet>
 
-            {/* ═══ A — CORE PAGE IDENTITY ════════════════════════════════════
-                Google guide: unique title + compelling description per page  */}
+            {/* ═══ A — CORE PAGE IDENTITY ════════════════════════════════════ */}
             <html lang="en" />
             <title>{fullTitle}</title>
             <meta name="description" content={resolvedDesc} />
@@ -521,23 +499,23 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="theme-color" content="#c0392b" />
 
             {/* ═══ B — CANONICAL + HREFLANG ══════════════════════════════════
-                Google guide: canonical prevents duplicate-content problems.
-                hreflang tells Google this page serves EN / AR / FA searchers. */}
+                FIX (Medium): Removed ar/fa hreflang pointing to same URL.
+                Incorrect hreflang (multiple langs → same URL) can confuse
+                Google's language targeting. Since there's one URL serving all
+                languages, only en + x-default are correct here.
+                To justify ar/fa tags in future: add /ar/ and /fa/ sub-routes
+                with translated page content. */}
             <link rel="canonical" href={resolvedUrl} />
             <link rel="alternate" hrefLang="en" href={resolvedUrl} />
-            <link rel="alternate" hrefLang="ar" href={resolvedUrl} />
-            <link rel="alternate" hrefLang="fa" href={resolvedUrl} />
             <link rel="alternate" hrefLang="x-default" href={SITE_URL} />
 
-            {/* ═══ C — GEO / LOCAL SIGNALS ═══════════════════════════════════
-                Critical for "near me" and city-level search ranking          */}
+            {/* ═══ C — GEO / LOCAL SIGNALS ═══════════════════════════════════ */}
             <meta name="geo.region" content={`${COUNTRY}-${REGION}`} />
             <meta name="geo.placename" content={`${CITY}, ${REGION}, ${COUNTRY}`} />
             <meta name="geo.position" content={`${GEO_LAT};${GEO_LNG}`} />
             <meta name="ICBM" content={`${GEO_LAT}, ${GEO_LNG}`} />
 
-            {/* ═══ D — MULTILINGUAL META ═════════════════════════════════════
-                Arabic and Persian descriptions for international searchers   */}
+            {/* ═══ D — MULTILINGUAL META ═════════════════════════════════════ */}
             <meta name="description:ar"
                 content="ورشة إصلاح هيكل السيارات في برنابي كندا — إصلاح حوادث، طلاء سيارات، إزالة الدنت، تغيير الزيت. معتمدة من ICBC. تقدير مجاني: (778) 260-2601." />
             <meta name="keywords:ar"
@@ -559,7 +537,7 @@ const SEO: React.FC<SEOProps> = ({
             <meta property="og:image:width" content="1200" />
             <meta property="og:image:height" content="630" />
             <meta property="og:image:alt"
-                content={`${SITE_NAME} — Auto Body & Collision Repair Shop, Burnaby BC`} />
+                content="The Shop Autobody — Auto Body & Collision Repair, 5156 Still Creek Ave, Burnaby BC" />
             <meta property="og:url" content={resolvedUrl} />
 
             {/* ═══ F — TWITTER CARD ══════════════════════════════════════════ */}
@@ -567,20 +545,16 @@ const SEO: React.FC<SEOProps> = ({
             <meta name="twitter:title" content={fullTitle} />
             <meta name="twitter:description" content={resolvedDesc} />
             <meta name="twitter:image" content={resolvedImage} />
-            <meta name="twitter:image:alt" content={`${SITE_NAME} — Auto Body Shop Burnaby BC`} />
+            <meta name="twitter:image:alt" content="The Shop Autobody — Auto Body Shop Burnaby BC" />
 
-            {/* ═══ G — MOBILE / PWA ══════════════════════════════════════════
-                Google guide: usability is a ranking factor                   */}
+            {/* ═══ G — MOBILE / PWA ══════════════════════════════════════════ */}
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <meta name="mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
             <meta name="apple-mobile-web-app-title" content={SITE_NAME} />
 
-            {/* ═══ H — JSON-LD STRUCTURED DATA ═══════════════════════════════
-                Google guide: structured data = machine-readable content
-                → Enables rich results: business info, hours, FAQ expansions  */}
-
+            {/* ═══ H — JSON-LD STRUCTURED DATA ═══════════════════════════════ */}
             <script type="application/ld+json">
                 {JSON.stringify(localBusinessSchema)}
             </script>

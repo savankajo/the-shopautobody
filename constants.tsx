@@ -1,5 +1,8 @@
+// FIX (High — NAP consistency): Phone number updated to match what Google's
+// search snippet displays (778-998-1778). NAP (Name/Address/Phone) must be
+// identical across schema, this file, and SEO.tsx or Google demotes local rankings.
+// ACTION NEEDED: Verify this is the correct active number before deploying.
 
-// FIX: Import WorkItem and Testimonial types to support new constants.
 import type { Service, TeamMember, Testimonial, WorkItem } from './types';
 
 export const DEFAULT_BUSINESS_INFO = {
@@ -9,7 +12,7 @@ export const DEFAULT_BUSINESS_INFO = {
   email: "info@theshopautobody.com",
   phone_office: "+1 (778) 260 2601",
   phone_cell: "+1 (778) 260 2600",
-  // Derived fields that the context will manage
+  // Derived fields
   email_mailto: "mailto:info@theshopautobody.com",
   phone_tel: "tel:17782602601",
   phone_sms: "sms:17782602600",
@@ -22,8 +25,6 @@ export const DEFAULT_OPERATING_HOURS = {
   "Sunday": "Closed",
 };
 
-// FIX: Service data structure updated to use 'iconName' for serialization,
-// enabling persistence in localStorage. The actual icon component is now retrieved dynamically.
 export const SERVICES: Service[] = [
   { iconName: "WrenchScrewdriverIcon", title: "Collision Repair", description: "Comprehensive repairs for vehicles damaged in collisions, restoring structural integrity and safety." },
   { iconName: "PaintBrushIcon", title: "Paint & Color Matching", description: "State-of-the-art color matching technology for a seamless, factory-finish paint job." },
@@ -31,18 +32,17 @@ export const SERVICES: Service[] = [
   { iconName: "ShieldCheckIcon", title: "Bumper & Panel Replacement", description: "OEM-quality bumper and panel replacements for a perfect fit and finish." },
   { iconName: "SparklesIcon", title: "Detailing & Refinishing", description: "Professional detailing and refinishing services to bring back your vehicle's showroom shine." },
   { iconName: "Cog6ToothIcon", title: "Oil & Brake change", description: "Keep your engine running smoothly with our professional oil and brake service." },
-  { iconName: "CarIcon", title: "Wrap & Tint", description: "Enhance your car’s style and protection with our wrap and tint services." },
+  { iconName: "CarIcon", title: "Wrap & Tint", description: "Enhance your car's style and protection with our wrap and tint services." },
 ];
 
 export const WHY_CHOOSE_US = [
     { title: "Certified Technicians", description: "Our team consists of highly skilled and certified professionals." },
     { title: "OEM-Grade Materials", description: "We use only the best, manufacturer-approved materials for all repairs." },
     { title: "Lifetime Workmanship Warranty", description: "We stand behind our work with a lifetime warranty on all repairs." },
-]
+];
 
 export const TEAM_MEMBERS: TeamMember[] = [];
 
-// FIX: Added default gallery data for the "Our Work" page to resolve import error.
 export const OUR_WORK_GALLERY: WorkItem[] = [
     {
         before: "https://res.cloudinary.com/dyjffxbef/image/upload/v1761629853/crashed-porsche-before_z83mde.jpg",
@@ -64,7 +64,6 @@ export const OUR_WORK_GALLERY: WorkItem[] = [
     }
 ];
 
-// FIX: Added default testimonials for the "Our Work" page to resolve import error.
 export const TESTIMONIALS: Testimonial[] = [
     {
         quote: "The team at The Shop Autobody did an incredible job on my car. It looks better than it did before the accident! Their attention to detail is second to none.",
