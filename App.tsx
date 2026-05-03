@@ -137,7 +137,6 @@ function Hero() {
           <a className="btn btn-secondary" href={DEFAULT_BUSINESS_INFO.phone_tel}>Call {DEFAULT_BUSINESS_INFO.phone_office}</a>
         </div>
         <div className="trust-strip" aria-label="Business highlights">
-          <span><strong>Lifetime</strong> workmanship warranty</span>
           <span><strong>OEM-grade</strong> materials</span>
           <span><strong>Metro Vancouver</strong> service area</span>
         </div>
