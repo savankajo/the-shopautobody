@@ -302,7 +302,7 @@ function Home() {
 function ServicesPage() {
   return (
     <>
-      <SEO pageType="service" url="https://theshopautobody.com/service" />
+      <SEO pageType="service" url="https://theshopautobody.com/service/" />
       <PageHero eyebrow="Services" title="Premium auto body, paint, repair, and protection services." text="Whether it is collision damage, a scuffed bumper, paint correction, wrap, tint, oil, or brakes, the work is handled with a high standard of fit, finish, and communication." />
       <ServicesPreview full />
       <WhyChoose />
@@ -314,7 +314,7 @@ function ServicesPage() {
 function AboutPage() {
   return (
     <>
-      <SEO pageType="about" url="https://theshopautobody.com/about-us" />
+      <SEO pageType="about" url="https://theshopautobody.com/about-us/" />
       <PageHero eyebrow="About The Shop" title="A local Burnaby auto body team built around careful work." text="The Shop Autobody helps drivers move from damage and uncertainty to a repaired vehicle they can trust again." />
       <section className="section split-section about-split">
         <div className="split-copy" data-reveal>
@@ -335,7 +335,7 @@ function AboutPage() {
 function ContactPage() {
   return (
     <>
-      <SEO pageType="contact" url="https://theshopautobody.com/contact" />
+      <SEO pageType="contact" url="https://theshopautobody.com/contact/" />
       <PageHero eyebrow="Contact" title="Book an appointment for your next repair." text="Schedule online, call the shop, or visit us at 5156 Still Creek Ave in Burnaby." />
       <ContactPanel />
       <MapSection />
