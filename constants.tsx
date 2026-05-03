@@ -38,7 +38,6 @@ export const SERVICES: Service[] = [
 export const WHY_CHOOSE_US = [
     { title: "Certified Technicians", description: "Our team consists of highly skilled and certified professionals." },
     { title: "OEM-Grade Materials", description: "We use only the best, manufacturer-approved materials for all repairs." },
-    { title: "Lifetime Workmanship Warranty", description: "We stand behind our work with a lifetime warranty on all repairs." },
 ];
 
 export const TEAM_MEMBERS: TeamMember[] = [];

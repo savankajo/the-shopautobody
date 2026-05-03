@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+  404.html — GitHub Pages SPA Routing Fix
+  ════════════════════════════════════════════════════════════════════════
+  WHAT THIS DOES:
+  GitHub Pages is a static host. When a user visits /service or /about-us
+  directly (or hits refresh on an inner page), GitHub returns a real 404
+  because those files don't exist on disk.
+
+  This file intercepts that 404, encodes the intended URL into sessionStorage,
+  then redirects to the homepage (/). The index.html then reads sessionStorage
+  and uses history.replaceState() to restore the correct URL before React
+  boots — so the user sees the right page and Google's crawler indexes it.
+
+  This is the standard, widely-used approach for SPAs on GitHub Pages.
+  Credit: https://github.com/rafgraph/spa-github-pages
+
+  WHERE TO PUT THIS FILE:
+  → /public/404.html  (Vite will copy it to the dist root on build)
+  ════════════════════════════════════════════════════════════════════════
+-->
+<head>
+  <meta charset="utf-8" />
+  <title>The Shop Autobody — Burnaby BC</title>
+  <script>
+    // Encode the full path + query + hash into sessionStorage
+    // then redirect to the root, preserving the path as a query param
+    var pathSegmentsToKeep = 0; // 0 = custom domain (theshopautobody.com)
+                                 // 1 = if deployed to a subdirectory like /repo-name/
+
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+</body>
+</html>
